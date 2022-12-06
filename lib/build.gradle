@@ -1,0 +1,37 @@
+plugins {
+    id 'java-library'
+    id 'example-plugin'
+    id 'ivy-publish'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    api 'org.apache.commons:commons-math3:3.6.1'
+
+    implementation 'com.google.guava:guava:31.0.1-jre'
+
+    additionalVariant 'org.apache.httpcomponents:httpclient:4.5.3'
+}
+
+tasks.withType(GenerateModuleMetadata) {
+    enabled = false
+}
+
+group = "org.example"
+version = "1.2.3"
+
+publishing {
+    publications {
+        ivy(IvyPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        ivy {
+            url = layout.buildDirectory.dir("repo")
+        }
+    }
+}
